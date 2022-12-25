@@ -22,8 +22,16 @@ class CalorieCalculator
   end
 
   def most_calories
-    calories_per_elf.map(&:sum).max
+    calories_per_elf.map(&:sum)
+  end
+
+  def top_calories(n)
+    most_calories.sort.reverse.first(n)
+  end
+
+  def total_top_calories(n)
+    top_calories(n).sum
   end
 end
 
-p CalorieCalculator.new('./input.txt').most_calories
+p CalorieCalculator.new('./input.txt').total_top_calories(3)
