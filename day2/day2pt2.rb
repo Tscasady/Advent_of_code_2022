@@ -10,18 +10,18 @@ module RPS
 
     def total
       lines.sum do |line|
-        moves = line.split(' ')
-        opp = moves[0]
-        plyr = moves[1]
-        Round.new(opp, plyr).points
+        data = line.split(' ')
+        opp = data[0]
+        result = data[1]
+        Round.new(opp, result).points
       end
     end
   end
 
   class Round
-    def initialize(opp, plyr)
+    def initialize(opp, result)
       @opp = RPSFactory.for(opp)
-      @plyr = RPSFactory.for(plyr)
+      @plyr = RPSFactory.for(@opp.outcome(result))
     end
 
     def points
@@ -52,6 +52,16 @@ module RPS
         6
       end
     end
+
+    def outcome(result)
+      if result == "X"
+        "C"
+      elsif result == "Y"
+        "A"
+      else
+        "B"
+      end
+    end
   end
 
   class Paper < Play
@@ -66,6 +76,16 @@ module RPS
         6
       end
     end
+
+    def outcome(result)
+      if result == "X"
+        "A"
+      elsif result == "Y"
+        "B"
+      else
+        "C"
+      end
+    end
   end
 
   class Scissors < Play
@@ -78,6 +98,16 @@ module RPS
         0
       else
         6
+      end
+    end
+
+    def outcome(result)
+      if result == "X"
+        "B"
+      elsif result == "Y"
+        "C"
+      else
+        "A"
       end
     end
   end
